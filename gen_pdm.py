@@ -12,13 +12,6 @@ from src.cfg import env
 from src.utils import log
 
 
-def help_info() :
-    return '''
--h           查看帮助信息
--p <pages>   爬取页数，默认 10
--z <zone>    指定爬取地区
-'''
-
 
 def main() :
     log.info('+++++++++++++++++++++++++++++++++++++++')
