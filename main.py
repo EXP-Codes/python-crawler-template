@@ -26,14 +26,18 @@ def main(is_help, pages, zone) :
         return
 
     log.info('+++++++++++++++++++++++++++++++++++++++')
+    options = {
+        'pages': pages, 
+        'zone': zone
+    }
     crawlers = [ 
-        DemoCrawler(), 
+        DemoCrawler(options=options), 
         # .... 其他爬虫的实现类
     ]
 
     all_cache_datas = []
-    for c in crawlers:
-        cache_datas = c.crawler()
+    for crawler in crawlers:
+        cache_datas = crawler.crawl()
         if cache_datas:
             all_cache_datas.extend(cache_datas)
 
@@ -51,8 +55,8 @@ def init() :
 
 def sys_args(sys_args) :
     is_help = False
-    pages = 10          # 最大爬取页数
-    zone = 'CN'         # 价格区域
+    pages = 10
+    zone = 'CN'
 
     idx = 1
     size = len(sys_args)

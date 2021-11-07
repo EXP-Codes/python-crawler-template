@@ -54,7 +54,7 @@ class BaseCrawler:
         }
 
 
-    def crawler(self):
+    def crawl(self):
         log.info('++++++++++++++++++++++++++++++++++++++++++++')
         log.info('正在爬取 [%s] ...' % self.NAME_CH())
 

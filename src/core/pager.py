@@ -20,36 +20,24 @@ TPL_TABLE_PATH = '%s/tpl/table.tpl' % env.PRJ_DIR
 TPL_ROW_PATH = '%s/tpl/row.tpl' % env.PRJ_DIR
 
 
-def to_page(cache, limit=500) :
+def to_page(cache=[], limit=500) :
     sdbc = SqliteDBC(env.DB_PATH)
     sdbc.conn()
-    _to_page(sdbc, TSteamGame.i_discount_rate, False, limit, TPL_DISCOUNT_PATH, HTML_DISCOUNT_PATH, 'and %s > 6' % TSteamGame.i_evaluation_id)
-    _to_page(sdbc, TSteamGame.i_evaluation_id, False, limit, TPL_EVALUATION_PATH, HTML_EVALUATION_PATH)
-    _to_page(sdbc, TSteamGame.i_rank_id, True, limit, TPL_HOT_PATH, HTML_HOT_PATH)
+    _to_page(HTML_HOME_PATH, sdbc, TCrawler.i_num, True, limit)
+    # FIXME: 若有多个页面则生成多次
     sdbc.close()
 
     
-def _to_page(sdbc, column, order, limit, tpl_path, savepath, condition='') :
-    tpl_index, tpl_head, tpl_tail, tpl_table, tpl_row = load_tpl(tpl_path)
-    games = query_game(sdbc, column, order, limit, condition)
+def _to_page(savepath, sdbc, column, order, limit, condition='') :
+    tpl_home, tpl_head, tpl_tail, tpl_table, tpl_row = load_tpl()
+    datas = query_data(sdbc, column, order, limit, condition)
     rows = []
-    for g in games:
-        new_flag = compare(g.original_price, g.lowest_price, g.discount_price)
+    for data in datas:
         row = tpl_row % {
-            'img_url': num.byte_to_str(g.img_url) or '',
-            'game_id': g.game_id or 0,
-            'game_name': num.byte_to_str(g.game_name) or '',
-            'original_price': num.byte_to_str(g.original_price) or '',
-            'lowest_price': num.byte_to_str(g.lowest_price) or '',
-            'discount_rate': g.discount_rate or 0,
-            'discount_price': num.byte_to_str(g.discount_price) or '',
-            'new_flag': new_flag, 
-            'evaluation': num.byte_to_str(g.evaluation) or '',
-            'evaluation_info': num.byte_to_str(g.evaluation_info) or '',
-            'rank_id': g.rank_id or 0,
-            'cur_player_num': g.cur_player_num or 0,
-            'today_max_player_num': g.today_max_player_num or 0,
-            'shop_url': num.byte_to_str(g.shop_url) or ''
+            'img_url': data.url or '',
+            'num': data.num or 0,
+            'name': data.name or '',
+            'data_url': data.url or ''
         }
         rows.append(row)
 
@@ -57,7 +45,7 @@ def _to_page(sdbc, column, order, limit, tpl_path, savepath, condition='') :
         'rows': '\n'.join(rows)
     }
 
-    index = tpl_index % {
+    home = tpl_home % {
         'head': tpl_head, 
         'tail': tpl_tail, 
         'datetime': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) ,
@@ -65,13 +53,13 @@ def _to_page(sdbc, column, order, limit, tpl_path, savepath, condition='') :
         'table': table
     }
 
-    create_html(index, savepath)
+    create_html(home, savepath)
     log.info('生成页面 [%s] 成功' % savepath)
 
 
-def load_tpl(tpl_path) :
-    with open(tpl_path, 'r', encoding=env.CHARSET) as file:
-        tpl_index = file.read()
+def load_tpl() :
+    with open(TPL_HOME_PATH, 'r', encoding=env.CHARSET) as file:
+        tpl_home = file.read()
 
     with open(TPL_HEAD_PATH, 'r', encoding=env.CHARSET) as file:
         tpl_head = file.read()
@@ -85,14 +73,14 @@ def load_tpl(tpl_path) :
     with open(TPL_ROW_PATH, 'r', encoding=env.CHARSET) as file:
         tpl_row = file.read()
 
-    return tpl_index, tpl_head, tpl_tail, tpl_table, tpl_row
+    return tpl_home, tpl_head, tpl_tail, tpl_table, tpl_row
 
 
-def query_game(conn, column, order, limit, condition='') :
-    dao = TSteamGameDao()
+def query_data(conn, column, order, limit, condition='') :
+    dao = TCrawlerDao()
     sort_by = 'asc' if order else 'desc'
-    where = " %s and %s is not null order by %s %s limit %i" % (condition, column, column, sort_by, limit)
-    sql = TSteamGameDao.SQL_SELECT + where
+    where = " %s order by %s %s limit %i" % (condition, column, sort_by, limit)
+    sql = TCrawlerDao.SQL_SELECT + where
     beans = []
     try:
         cursor = conn.cursor()
@@ -103,7 +91,7 @@ def query_game(conn, column, order, limit, condition='') :
             beans.append(bean)
         cursor.close()
     except:
-        log.error("从表 [%s] 查询数据失败" % TSteamGame.table_name)
+        log.error("从表 [%s] 查询数据失败" % TCrawler.table_name)
     return beans
 
 

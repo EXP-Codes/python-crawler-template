@@ -17,7 +17,7 @@ class DemoCrawler(BaseCrawler):
 
     def __init__(self):
         BaseCrawler.__init__(self)
-        self.name_ch = '示例'
+        self.name_ch = '爬虫示例'
         self.name_en = 'demo'
         self.home_page = 'https://exp-blog.com'
 
