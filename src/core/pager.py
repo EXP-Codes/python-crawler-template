@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author : EXP
-# @Time   : 2020/4/30 9:37
-# @File   : page.py
 # -----------------------------------------------
 # 从数据库读取最新数据生成 GitHub 播报页面
 # -----------------------------------------------
 
 import time
 from pypdm.dbc._sqlite import SqliteDBC
-from src.bean.t_steam_game import TSteamGame
-from src.dao.t_steam_game import TSteamGameDao
+from src.bean.t_crawler import TCrawler
+from src.dao.t_crawler import TCrawlerDao
 from src.cfg import env
 from src.utils import log
 
@@ -22,7 +20,7 @@ TPL_TABLE_PATH = '%s/tpl/table.tpl' % env.PRJ_DIR
 TPL_ROW_PATH = '%s/tpl/row.tpl' % env.PRJ_DIR
 
 
-def to_page(limit=500) :
+def to_page(cache, limit=500) :
     sdbc = SqliteDBC(env.DB_PATH)
     sdbc.conn()
     _to_page(sdbc, TSteamGame.i_discount_rate, False, limit, TPL_DISCOUNT_PATH, HTML_DISCOUNT_PATH, 'and %s > 6' % TSteamGame.i_evaluation_id)
@@ -114,13 +112,3 @@ def create_html(data, savepath) :
         file.write(data)
 
 
-def compare(original, lowest, discount) :
-    new_flag = ''
-    if original and lowest and discount :
-        org = num.to_float(original)
-        low = num.to_float(lowest)
-        dis = num.to_float(discount)
-        low = low + 0.01  # 精度误差
-        if dis <= low and low < org :
-            new_flag = ' <img src="imgs/lowest.gif" />'
-    return new_flag
