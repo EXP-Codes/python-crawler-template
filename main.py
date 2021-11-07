@@ -7,7 +7,6 @@ import sys
 from pypdm.dbc._sqlite import SqliteDBC
 from src.core.demo_crawler import DemoCrawler
 from src.cfg import env
-from src.core import saver
 from src.core import pager
 from src.utils import log
 

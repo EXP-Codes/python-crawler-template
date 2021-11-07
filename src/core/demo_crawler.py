@@ -15,8 +15,8 @@ from src.utils import log
 
 class DemoCrawler(BaseCrawler):
 
-    def __init__(self):
-        BaseCrawler.__init__(self)
+    def __init__(self, options):
+        BaseCrawler.__init__(self, options=options)
         self.name_ch = '爬虫示例'
         self.name_en = 'demo'
         self.home_page = 'https://exp-blog.com'

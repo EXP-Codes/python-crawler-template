@@ -19,7 +19,7 @@ class BaseCrawler:
 
     __metaclass__ = ABCMeta # 定义为抽象类
 
-    def __init__(self, timeout = 60, charset = env.CHARSET, options={}):
+    def __init__(self, timeout=60, charset=env.CHARSET, options={}):
         self.timeout = timeout or 60
         self.charset = charset or env.CHARSET
         self.options = options
@@ -55,7 +55,7 @@ class BaseCrawler:
 
 
     def crawl(self):
-        log.info('++++++++++++++++++++++++++++++++++++++++++++')
+        log.info('<<<<<<<<<<<<<<<<<<')
         log.info('正在爬取 [%s] ...' % self.NAME_CH())
 
         try:
@@ -73,7 +73,7 @@ class BaseCrawler:
         sdbc.close()
 
         log.info('得到 [%s] 数据 [%s] 条' % (self.NAME_CH(), len(cache_datas)))
-        log.info('--------------------------------------------')
+        log.info('>>>>>>>>>>>>>>>>>>')
         return cache_datas
 
 
