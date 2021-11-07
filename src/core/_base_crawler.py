@@ -5,7 +5,6 @@
 # @File   : _base_crawler.py
 # -----------------------------------------------
 
-import os
 from abc import ABCMeta, abstractmethod     # python不存在抽象类的概念， 需要引入abc模块实现
 from src.cfg import env
 from src.utils import log
