@@ -83,6 +83,7 @@ class BaseCrawler:
         return []       # cache_datas
 
 
+    # FIXME: 存储数据到数据库
     def to_db(self, sdbc, dao, cache):
         bean = TCrawler()
         bean.id = cache.id
