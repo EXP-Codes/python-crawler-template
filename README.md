@@ -15,4 +15,5 @@
 2. 修改 [`script/crawler-create.sql`](./script/crawler-create.sql) 建库脚本
 3. 运行 [`python gen_pdm.py`](./gen_pdm.py) 脚本生成数据库 pdm 代码
 4. 修改 [`src`](./src) 下的爬虫代码，运行 [`python main.py`](./main.py) 启动爬虫
+5. 修改 [`autorun.yml`](./.github/workflows/autorun.yml)，可通过 Github Actions 自动运行
 
