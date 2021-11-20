@@ -6,7 +6,7 @@
 
 import hashlib
 from src.cfg import env
-
+from src.bean.t_crawler import TCrawler
 
 class CacheInfo:
 
@@ -26,6 +26,16 @@ class CacheInfo:
             data = '%s%s%s' % (self.num, self.name, self.url)
             self.md5 = hashlib.md5(data.encode(encoding=env.CHARSET)).hexdigest()
         return self.md5
+
+
+    # FIXME: 把缓存数据转为数据库模型
+    def to_bean(self) :
+        bean = TCrawler()
+        bean.id = self.id
+        bean.num = self.num
+        bean.name = self.name
+        bean.url = self.url
+        return bean
 
 
     def to_html(self):

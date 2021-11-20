@@ -9,7 +9,6 @@ from abc import ABCMeta, abstractmethod     # python不存在抽象类的概念�
 from src.cfg import env
 from src.utils import log
 from pypdm.dbc._sqlite import SqliteDBC
-from src.bean.t_crawler import TCrawler
 from src.dao.t_crawler import TCrawlerDao
 
 
@@ -82,13 +81,8 @@ class BaseCrawler:
         return []       # cache_datas
 
 
-    # FIXME: 存储数据到数据库
+    # 把缓存转为数据库模型
     def to_db(self, sdbc, cache):
-        bean = TCrawler()
-        bean.id = cache.id
-        bean.num = cache.num
-        bean.name = cache.name
-        bean.url = cache.url
-
+        bean = cache.to_bean()
         dao = TCrawlerDao()
         dao.insert(sdbc, bean)

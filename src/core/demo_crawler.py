@@ -70,6 +70,6 @@ class DemoCrawler(BaseCrawler):
 
     def to_cache(self, item):
         cache = CacheInfo()
-        # FIXME: 把数据格式化到缓存
+        # FIXME: 把爬到的数据格式化到缓存
         return cache
 

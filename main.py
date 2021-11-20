@@ -75,7 +75,7 @@ def sys_args(sys_args) :
         except :
             pass
         idx += 1
-    return is_help, pages, zone
+    return [ is_help, pages, zone ]
 
 
 
