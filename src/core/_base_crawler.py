@@ -64,11 +64,10 @@ class BaseCrawler:
             log.error('爬取 [%s] 异常' % self.NAME_CH())
 
         # 数据入库
-        dao = TCrawlerDao()
         sdbc = SqliteDBC(env.DB_PATH)
         sdbc.conn()
         for cache in cache_datas:
-            self.to_db(sdbc, dao, cache)
+            self.to_db(sdbc, cache)
         sdbc.close()
 
         log.info('得到 [%s] 数据 [%s] 条' % (self.NAME_CH(), len(cache_datas)))
@@ -84,10 +83,12 @@ class BaseCrawler:
 
 
     # FIXME: 存储数据到数据库
-    def to_db(self, sdbc, dao, cache):
+    def to_db(self, sdbc, cache):
         bean = TCrawler()
         bean.id = cache.id
         bean.num = cache.num
         bean.name = cache.name
         bean.url = cache.url
+
+        dao = TCrawlerDao()
         dao.insert(sdbc, bean)
