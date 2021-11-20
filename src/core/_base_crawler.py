@@ -56,10 +56,10 @@ class BaseCrawler:
         log.info('<<<<<<<<<<<<<<<<<<')
         log.info('正在爬取 [%s] ...' % self.NAME_CH())
 
+        cache_datas = []
         try:
             cache_datas = self.crawl_datas()
         except:
-            cache_datas = []
             log.error('爬取 [%s] 异常' % self.NAME_CH())
 
         # 数据入库
