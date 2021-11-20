@@ -34,7 +34,7 @@ class DemoCrawler(BaseCrawler):
         return self.home_page
 
 
-    def crawl_data(self):
+    def crawl_datas(self):
         response = requests.get(
             self.home_page,
             headers = self.headers(),

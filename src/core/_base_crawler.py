@@ -58,10 +58,10 @@ class BaseCrawler:
         log.info('正在爬取 [%s] ...' % self.NAME_CH())
 
         try:
-            cache_datas = self.crawl_data()
+            cache_datas = self.crawl_datas()
         except:
             cache_datas = []
-            log.error('爬取 [%s]' % self.NAME_CH())
+            log.error('爬取 [%s] 异常' % self.NAME_CH())
 
         # 数据入库
         dao = TCrawlerDao()
@@ -77,7 +77,7 @@ class BaseCrawler:
 
 
     @abstractmethod
-    def crawl_data(self):
+    def crawl_datas(self):
         # 爬取最新的数据（由子类爬虫实现）
         # TODO: in sub class
         return []       # cache_datas
