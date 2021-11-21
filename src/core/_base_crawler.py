@@ -63,12 +63,7 @@ class BaseCrawler:
             log.error('爬取 [%s] 异常' % self.NAME_CH())
 
         # 数据入库
-        sdbc = SqliteDBC(env.DB_PATH)
-        sdbc.conn()
-        for cache in cache_datas:
-            self.to_db(sdbc, cache)
-        sdbc.close()
-
+        self.to_db(cache_datas)
         log.info('得到 [%s] 数据 [%s] 条' % (self.NAME_CH(), len(cache_datas)))
         log.info('>>>>>>>>>>>>>>>>>>')
         return cache_datas
@@ -81,8 +76,12 @@ class BaseCrawler:
         return []       # cache_datas
 
 
-    # 把缓存转为数据库模型
-    def to_db(self, sdbc, cache):
-        bean = cache.to_bean()
+    
+    def to_db(self, caches):
         dao = TCrawlerDao()
-        dao.insert(sdbc, bean)
+        sdbc = SqliteDBC(env.DB_PATH)
+        
+        sdbc.conn()
+        beans = map(lambda c: c.to_bean(), caches)  # 把缓存转为数据库模型
+        dao.insert_all(sdbc, beans)
+        sdbc.close()
