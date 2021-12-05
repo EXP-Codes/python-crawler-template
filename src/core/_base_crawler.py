@@ -6,7 +6,7 @@
 # -----------------------------------------------
 
 from abc import ABCMeta, abstractmethod     # python不存在抽象类的概念， 需要引入abc模块实现
-from src.cfg import env
+from src import config
 from src.utils import log
 from pypdm.dbc._sqlite import SqliteDBC
 from src.dao.t_crawler import TCrawlerDao
@@ -17,9 +17,9 @@ class BaseCrawler:
 
     __metaclass__ = ABCMeta # 定义为抽象类
 
-    def __init__(self, timeout=60, charset=env.CHARSET, options={}):
+    def __init__(self, timeout=60, charset=config.CHARSET, options={}):
         self.timeout = timeout or 60
-        self.charset = charset or env.CHARSET
+        self.charset = charset or config.CHARSET
         self.options = options
 
 
@@ -39,7 +39,7 @@ class BaseCrawler:
 
 
     def CACHE_PATH(self):
-        return '%s/cache/%s.dat' % (env.PRJ_DIR, self.NAME_EN())
+        return '%s/cache/%s.dat' % (config.PRJ_DIR, self.NAME_EN())
 
 
     def headers(self):
@@ -79,7 +79,7 @@ class BaseCrawler:
     
     def to_db(self, caches):
         dao = TCrawlerDao()
-        sdbc = SqliteDBC(env.DB_PATH)
+        sdbc = SqliteDBC(config.DB_PATH)
         
         sdbc.conn()
         beans = map(lambda c: c.to_bean(), caches)  # 把缓存转为数据库模型

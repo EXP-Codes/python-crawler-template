@@ -6,7 +6,7 @@
 import sys
 from pypdm.dbc._sqlite import SqliteDBC
 from src.core.demo_crawler import DemoCrawler
-from src.cfg import env
+from src import config
 from src.core import pager
 from src.utils import log
 
@@ -48,8 +48,8 @@ def main(is_help, pages, zone) :
 
 def init() :
     log.init()
-    sdbc = SqliteDBC(env.DB_PATH)
-    sdbc.exec_script(env.SQL_PATH)
+    sdbc = SqliteDBC(config.DB_PATH)
+    sdbc.exec_script(config.SQL_PATH)
 
 
 def sys_args(sys_args) :

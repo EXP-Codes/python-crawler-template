@@ -9,19 +9,19 @@ import time
 from pypdm.dbc._sqlite import SqliteDBC
 from src.bean.t_crawler import TCrawler
 from src.dao.t_crawler import TCrawlerDao
-from src.cfg import env
+from src import config
 from src.utils import log
 
-HTML_HOME_PATH = '%s/docs/home.html' % env.PRJ_DIR
-TPL_HOME_PATH = '%s/tpl/home.tpl' % env.PRJ_DIR
-TPL_HEAD_PATH = '%s/tpl/head.tpl' % env.PRJ_DIR
-TPL_TAIL_PATH = '%s/tpl/tail.tpl' % env.PRJ_DIR
-TPL_TABLE_PATH = '%s/tpl/table.tpl' % env.PRJ_DIR
-TPL_ROW_PATH = '%s/tpl/row.tpl' % env.PRJ_DIR
+HTML_HOME_PATH = '%s/docs/home.html' % config.PRJ_DIR
+TPL_HOME_PATH = '%s/tpl/home.tpl' % config.PRJ_DIR
+TPL_HEAD_PATH = '%s/tpl/head.tpl' % config.PRJ_DIR
+TPL_TAIL_PATH = '%s/tpl/tail.tpl' % config.PRJ_DIR
+TPL_TABLE_PATH = '%s/tpl/table.tpl' % config.PRJ_DIR
+TPL_ROW_PATH = '%s/tpl/row.tpl' % config.PRJ_DIR
 
 
 def to_page(cache=[], limit=500) :
-    sdbc = SqliteDBC(env.DB_PATH)
+    sdbc = SqliteDBC(config.DB_PATH)
     sdbc.conn()
     _to_page(HTML_HOME_PATH, sdbc, TCrawler.i_num, True, limit)
     # FIXME: 若有多个页面则生成多次
@@ -58,19 +58,19 @@ def _to_page(savepath, sdbc, column, order, limit, condition='') :
 
 
 def load_tpl() :
-    with open(TPL_HOME_PATH, 'r', encoding=env.CHARSET) as file:
+    with open(TPL_HOME_PATH, 'r', encoding=config.CHARSET) as file:
         tpl_home = file.read()
 
-    with open(TPL_HEAD_PATH, 'r', encoding=env.CHARSET) as file:
+    with open(TPL_HEAD_PATH, 'r', encoding=config.CHARSET) as file:
         tpl_head = file.read()
 
-    with open(TPL_TAIL_PATH, 'r', encoding=env.CHARSET) as file:
+    with open(TPL_TAIL_PATH, 'r', encoding=config.CHARSET) as file:
         tpl_tail = file.read()
 
-    with open(TPL_TABLE_PATH, 'r', encoding=env.CHARSET) as file:
+    with open(TPL_TABLE_PATH, 'r', encoding=config.CHARSET) as file:
         tpl_table = file.read()
 
-    with open(TPL_ROW_PATH, 'r', encoding=env.CHARSET) as file:
+    with open(TPL_ROW_PATH, 'r', encoding=config.CHARSET) as file:
         tpl_row = file.read()
 
     return tpl_home, tpl_head, tpl_tail, tpl_table, tpl_row
@@ -96,7 +96,7 @@ def query_data(conn, column, order, limit, condition='') :
 
 
 def create_html(data, savepath) :
-    with open(savepath, 'w+', encoding=env.CHARSET) as file:
+    with open(savepath, 'w+', encoding=config.CHARSET) as file:
         file.write(data)
 
 

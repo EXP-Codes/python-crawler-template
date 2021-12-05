@@ -1,0 +1,6 @@
+base:
+  charset: 'utf-8'
+
+database:
+  dbtype: 'sqlite'
+  dbpath: './data/crawler.db'

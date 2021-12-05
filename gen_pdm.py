@@ -8,35 +8,30 @@
 
 from pypdm.dbc._sqlite import SqliteDBC
 from pypdm.builder import build
-from src.cfg import env
+from src import config
 from src.utils import log
 
 
 
 def main() :
     log.info('+++++++++++++++++++++++++++++++++++++++')
+    sdbc = SqliteDBC(config.settings.database)
+    sdbc.conn()
+    sdbc.exec_script(config.SQL_PATH)
     build(
-        dbtype = 'sqlite',
-        dbname = env.DB_PATH,
-        charset = env.CHARSET,
+        dbc = sdbc,
         pdm_pkg = 'src',
         table_whitelist = [],
         table_blacklist = [],
         to_log = False
     )
+    sdbc.close()
     log.info('---------------------------------------')
 
 
 
-def init() :
-    log.init()
-    sdbc = SqliteDBC(env.DB_PATH)
-    sdbc.exec_script(env.SQL_PATH)
-
-
-
 if __name__ == "__main__" :
-    init()
+    log.init()
     try :
         main()
     except :

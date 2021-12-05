@@ -5,7 +5,7 @@
 
 
 import hashlib
-from src.cfg import env
+from src import config
 from src.bean.t_crawler import TCrawler
 
 class CacheInfo:
@@ -24,7 +24,7 @@ class CacheInfo:
     def MD5(self):
         if not self.md5:
             data = '%s%s%s' % (self.num, self.name, self.url)
-            self.md5 = hashlib.md5(data.encode(encoding=env.CHARSET)).hexdigest()
+            self.md5 = hashlib.md5(data.encode(encoding=config.CHARSET)).hexdigest()
         return self.md5
 
 
