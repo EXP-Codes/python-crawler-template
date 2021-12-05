@@ -49,6 +49,7 @@ def init():
 
     # 禁用第三方日志
     logging.getLogger("requests").setLevel(logging.FATAL)
+    logging.getLogger('chardet.charsetprober').setLevel(logging.FATAL)
 
 
 
