@@ -48,8 +48,11 @@ def main(is_help, pages, zone) :
 
 def init() :
     log.init()
-    sdbc = SqliteDBC(config.DB_PATH)
+    sdbc = SqliteDBC(options=config.settings.database)
+    sdbc.conn()
     sdbc.exec_script(config.SQL_PATH)
+    sdbc.close()
+
 
 
 def sys_args(sys_args) :

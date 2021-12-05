@@ -17,9 +17,9 @@ class BaseCrawler:
 
     __metaclass__ = ABCMeta # 定义为抽象类
 
-    def __init__(self, timeout=60, charset=config.CHARSET, options={}):
+    def __init__(self, timeout=60, charset=config.settings.charset, options={}):
         self.timeout = timeout or 60
-        self.charset = charset or config.CHARSET
+        self.charset = charset or config.settings.charset
         self.options = options
 
 
@@ -79,7 +79,7 @@ class BaseCrawler:
     
     def to_db(self, caches):
         dao = TCrawlerDao()
-        sdbc = SqliteDBC(config.DB_PATH)
+        sdbc = SqliteDBC(options=config.settings.database)
         
         sdbc.conn()
         beans = map(lambda c: c.to_bean(), caches)  # 把缓存转为数据库模型

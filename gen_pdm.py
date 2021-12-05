@@ -15,7 +15,7 @@ from src.utils import log
 
 def main() :
     log.info('+++++++++++++++++++++++++++++++++++++++')
-    sdbc = SqliteDBC(config.settings.database)
+    sdbc = SqliteDBC(options=config.settings.database)
     sdbc.conn()
     sdbc.exec_script(config.SQL_PATH)
     build(
