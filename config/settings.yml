@@ -4,3 +4,12 @@ base:
 database:
   dbtype: 'sqlite'
   dbpath: './data/crawler.db'
+  
+  # dbtype: 'mysql'
+  # host: '127.0.0.1'
+  # port: 3306
+  # username: 'stock'
+  # password: '123456'
+  # dbname: 'stock'
+  # encoding: 'utf8'
+
