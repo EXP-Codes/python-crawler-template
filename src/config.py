@@ -4,26 +4,24 @@
 # -----------------------------------------------
 
 import os
-import yaml
+import erb.yml as yaml
 PRJ_DIR = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
     )
 )
-
-
-SQL_PATH = '%s/script/crawler-create.sql' % PRJ_DIR
+CHARSET = 'utf-8'
 SETTINGS_PATH = '%s/config/settings.yml' % PRJ_DIR
 
 
 class Config :
 
-    def __init__(self, settings_path) -> None:
-        with open(settings_path, 'r') as file:
-            self.settings = yaml.safe_load(file.read())
+    def __init__(self, settings_path, charset) -> None:
+        with open(settings_path, 'r', encoding=charset) as file:
+            self.settings = yaml.load(file.read())
             self.base = self.settings.get('base')
             self.charset = self.base.get('charset')
             self.database = self.settings.get('database')
 
 
-settings = Config(SETTINGS_PATH)
+settings = Config(SETTINGS_PATH, CHARSET)

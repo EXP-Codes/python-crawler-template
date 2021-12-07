@@ -1,5 +1,6 @@
 base:
   charset: 'utf-8'
+  sqlpath: './script/crawler-create.sql'
 
 database:
   dbtype: 'sqlite'
@@ -9,7 +10,7 @@ database:
   # host: '127.0.0.1'
   # port: 3306
   # username: 'stock'
-  # password: '123456'
+  # password: "<%= ENV['DB_PASS'] %>"
   # dbname: 'stock'
   # encoding: 'utf8'
 
