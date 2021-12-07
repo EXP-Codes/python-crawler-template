@@ -50,7 +50,7 @@ def init() :
     log.init()
     sdbc = SqliteDBC(options=config.settings.database)
     sdbc.conn()
-    sdbc.exec_script(config.SQL_PATH)
+    sdbc.exec_script(config.settings.base['sqlpath'])
     sdbc.close()
 
 

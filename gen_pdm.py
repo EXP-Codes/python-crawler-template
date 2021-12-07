@@ -17,7 +17,7 @@ def main() :
     log.info('+++++++++++++++++++++++++++++++++++++++')
     sdbc = SqliteDBC(options=config.settings.database)
     sdbc.conn()
-    sdbc.exec_script(config.SQL_PATH)
+    sdbc.exec_script(config.settings.base['sqlpath'])
     build(
         dbc = sdbc,
         pdm_pkg = 'src',

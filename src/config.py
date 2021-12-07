@@ -18,10 +18,10 @@ class Config :
 
     def __init__(self, settings_path, charset) -> None:
         with open(settings_path, 'r', encoding=charset) as file:
-            self.settings = yaml.load(file.read())
-            self.base = self.settings.get('base')
+            context = yaml.load(file.read())
+            self.base = context.get('base')
             self.charset = self.base.get('charset')
-            self.database = self.settings.get('database')
+            self.database = context.get('database')
 
 
 settings = Config(SETTINGS_PATH, CHARSET)
