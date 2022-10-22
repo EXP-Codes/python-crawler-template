@@ -7,7 +7,7 @@
 
 from abc import ABCMeta, abstractmethod     # python不存在抽象类的概念， 需要引入abc模块实现
 from src import config
-from src.utils import log
+from color_log.clog import log
 from pypdm.dbc._sqlite import SqliteDBC
 from src.dao.t_crawler import TCrawlerDao
 

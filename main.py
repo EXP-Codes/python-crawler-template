@@ -3,35 +3,48 @@
 # @Author : EXP
 # -----------------------------------------------
 
+import argparse
 import sys
 from pypdm.dbc._sqlite import SqliteDBC
 from src.core.demo_crawler import DemoCrawler
 from src import config
 from src.core import pager
-from src.utils import log
+from color_log.clog import log
 
 
-def help_info() :
-    return '''
--h           查看帮助信息
--p <pages>   爬取页数，默认 10
--z <zone>    指定爬取地区
-'''
+def args() :
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        prog='Python 爬虫开发模板',
+        description='使用此模板可以快速搭建一个爬虫框架', 
+        epilog='\r\n'.join([
+            '示例: ', 
+            '  单机连续帧识别模式：python main.py', 
+            '  单机连续帧模式：python main.py -m alone -f', 
+            '  单机截屏识别模式：python main.py -m alone', 
+            '  联机模式：python main.py -m duplex -r ai', 
+            '  联机模式：python main.py -m duplex -r ctrl', 
+            '',
+            '（单机模式只支持【无边框全屏】或【窗口】，联机模式只支持【无边框全屏】或【全屏】模式）'
+        ])
+    )
+    parser.add_argument('-p', '--pages', dest='pages', type=int, default=10, help='爬取页数')
+    parser.add_argument('-z', '--zone', dest='zone', type=str, default='china', help='爬取地区')
+    return parser.parse_args()
 
 
-def main(is_help, pages, zone) :
-    if is_help :
-        log.info(help_info())
-        return
 
+def main(args) :
     log.info('+++++++++++++++++++++++++++++++++++++++')
     options = {
-        'pages': pages, 
-        'zone': zone
+        # 爬虫参数，按需替换
+        # ... ...
+        'pages': args.pages, 
+        'zone': args.zone
     }
     crawlers = [ 
         DemoCrawler(options=options), 
-        # .... 其他爬虫的实现类
+        # ... ... 其他爬虫的实现类
     ]
 
     all_cache_datas = []
@@ -47,7 +60,6 @@ def main(is_help, pages, zone) :
 
 
 def init() :
-    log.init()
     sdbc = SqliteDBC(options=config.settings.database)
     sdbc.conn()
     sdbc.exec_script(config.settings.base['sqlpath'])
@@ -55,36 +67,9 @@ def init() :
 
 
 
-def sys_args(sys_args) :
-    is_help = False
-    pages = 10
-    zone = 'CN'
-
-    idx = 1
-    size = len(sys_args)
-    while idx < size :
-        try :
-            if sys_args[idx] == '-h' or sys_args[idx] == '--help' :
-                is_help = True
-                break
-
-            elif sys_args[idx] == '-p' or sys_args[idx] == '--pages' :
-                idx += 1
-                pages = int(sys_args[idx])
-
-            elif sys_args[idx] == '-z' or sys_args[idx] == '--zone' :
-                idx += 1
-                zone = sys_args[idx]
-        except :
-            pass
-        idx += 1
-    return [ is_help, pages, zone ]
-
-
-
 if __name__ == "__main__" :
-    init()
     try :
-        main(*sys_args(sys.argv))
+        init()
+        main(args())
     except :
         log.error('未知异常')

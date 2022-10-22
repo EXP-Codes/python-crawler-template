@@ -10,7 +10,7 @@ from pypdm.dbc._sqlite import SqliteDBC
 from src.bean.t_crawler import TCrawler
 from src.dao.t_crawler import TCrawlerDao
 from src import config
-from src.utils import log
+from color_log.clog import log
 
 HTML_HOME_PATH = '%s/docs/home.html' % config.PRJ_DIR
 TPL_HOME_PATH = '%s/tpl/home.tpl' % config.PRJ_DIR

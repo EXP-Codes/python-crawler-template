@@ -1,4 +1,6 @@
+argparse>=1.4.0
 requests==2.22.0
 bs4==0.0.1
-pypdm-db==1.1.2
-pyyaml-erb==1.0.4
+py-color-log>=1.0.4
+pypdm-db>=1.1.2
+pyyaml-erb>=1.0.5

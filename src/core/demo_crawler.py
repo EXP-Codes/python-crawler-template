@@ -10,7 +10,7 @@ import json
 from bs4 import BeautifulSoup
 from src.core._base_crawler import BaseCrawler
 from src.bean.cache_info import CacheInfo
-from src.utils import log
+from color_log.clog import log
 
 
 class DemoCrawler(BaseCrawler):

@@ -9,7 +9,7 @@
 from pypdm.dbc._sqlite import SqliteDBC
 from pypdm.builder import build
 from src import config
-from src.utils import log
+from color_log.clog import log
 
 
 
